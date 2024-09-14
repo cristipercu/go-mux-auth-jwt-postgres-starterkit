@@ -1,8 +1,9 @@
 package types
 
 type UserStore interface {
-  CreateUser(RegisterUserPayload) error
+  CreateUser(User) error
   GetUserByEmail(string) (*User, error)
+  GetUserByID(int) (*User, error)
 }
 
 type User struct {
@@ -20,4 +21,7 @@ type RegisterUserPayload struct {
   Password string `json:"password" validate:"required,min=6,max=130"`
 }
 
-
+type LoginUserPayload struct {
+  Email string `json:"username" validate:"required"`
+  Password string `json:"password" validate:"required,min=6,max=130"`
+}
