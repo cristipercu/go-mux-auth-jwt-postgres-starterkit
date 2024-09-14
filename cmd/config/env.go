@@ -26,7 +26,8 @@ func initConfig() Config {
     DbPassword: getEnv("POSTGRES_PASSWORD", "postgres"),
     Sslmode: getEnv("SSL_MODE", "disable"),
     JWTExpirationInSeconds: getEnvAsInt("JWT_EXPIRATION_IN_SECONDS", 60*60*24*7),
-    JWTSecret: getEnv("JWT_SECRET", "Lasa1ma2papa3la4mare!"),
+    // TODO: Do not fortget to add JWT_SECRET in your env, otherwise this default value is ised in you are cooked
+    JWTSecret: getEnv("JWT_SECRET", "please_change_me!you_should_change_me!"),
   }
 }
 
