@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/cristipercu/go-mux-auth-jwt-postgres-starterkit/service/user"
 	"github.com/gorilla/mux"
 )
 
@@ -28,6 +29,10 @@ func (api *APIserver) Run() error {
   subrouter.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request){
     w.WriteHeader(http.StatusOK)
   }).Methods(http.MethodGet)
+
+  userStore := user.NewStore(api.db)
+  userHandler := user.NewHandler(userStore)
+  userHandler.RegisterRoutes(subrouter)
 
   log.Printf("Listening on %s", api.addr )
 

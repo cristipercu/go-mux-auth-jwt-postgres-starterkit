@@ -12,6 +12,7 @@ type Config struct {
   DbName string
   DbPassword string
   Sslmode string
+  DbPort int64
   JWTExpirationInSeconds int64
   JWTSecret string
 }
@@ -25,6 +26,7 @@ func initConfig() Config {
     DbName: getEnv("PPOSTGRES_DB", "postgres"),
     DbPassword: getEnv("POSTGRES_PASSWORD", "postgres"),
     Sslmode: getEnv("SSL_MODE", "disable"),
+    DbPort: getEnvAsInt("POSTGRES_PORT", 5432),
     JWTExpirationInSeconds: getEnvAsInt("JWT_EXPIRATION_IN_SECONDS", 60*60*24*7),
     // TODO: Do not fortget to add JWT_SECRET in your env, otherwise this default value is ised in you are cooked
     JWTSecret: getEnv("JWT_SECRET", "please_change_me!you_should_change_me!"),
