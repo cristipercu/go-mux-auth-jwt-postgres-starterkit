@@ -14,6 +14,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+
 type contextKey string
 
 const UserKey contextKey = "userID"
@@ -21,7 +22,6 @@ const UserKey contextKey = "userID"
 func WithJWTAuth(handlerFunc http.HandlerFunc, store types.UserStore) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokenString := utils.GetTokenFromRequest(r)
-
 		token, err := validateJWT(tokenString)
 		if err != nil {
 			log.Printf("failed to validate token: %v", err)

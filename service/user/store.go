@@ -37,12 +37,12 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
 }
 
 
-func (s *Store) GetUserByID (id int) (*types.User, error) {
-  user := new(types.User)
+func (s *Store) GetUserByID (id int) (*types.UserProfile, error) {
+  user := new(types.UserProfile)
 
-  err := s.db.QueryRow(`SELECT id, username, email, password, created_on, modified_on
-    FROM public.users WHERE email = $1`, id).Scan(
-      &user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedOn, &user.ModifiedOn, 
+  err := s.db.QueryRow(`SELECT id, username, email, created_on, modified_on
+    FROM public.users WHERE id = $1`, id).Scan(
+      &user.ID, &user.Username, &user.Email, &user.CreatedOn, &user.ModifiedOn, 
     )
 
   if err != nil {

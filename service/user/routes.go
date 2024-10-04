@@ -3,6 +3,7 @@ package user
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/cristipercu/go-mux-auth-jwt-postgres-starterkit/cmd/config"
 	"github.com/cristipercu/go-mux-auth-jwt-postgres-starterkit/service/auth"
@@ -25,6 +26,32 @@ func NewHandler(store types.UserStore) *Handler {
 func (h *Handler) RegisterRoutes(router *mux.Router) {
   router.HandleFunc("/register", h.handleRegister).Methods(http.MethodPost)
   router.HandleFunc("/login", h.handleLogin).Methods(http.MethodPost)
+  router.HandleFunc("/profile/{userID}", auth.WithJWTAuth(h.handleProfile, h.store)).Methods(http.MethodGet)
+}
+
+func(h *Handler) handleProfile(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  userIdUrl := vars["userID"]
+
+  userIdFromContext := auth.GetUserIDFromContext(r.Context())
+
+	userID, err := strconv.Atoi(userIdUrl)
+  if err != nil {
+    utils.WriteError(w, http.StatusForbidden, fmt.Errorf("permission denied"))
+  }
+
+  if userID != userIdFromContext {
+    utils.WriteError(w, http.StatusForbidden, fmt.Errorf("permission denied"))
+  } 
+
+  user, err := h.store.GetUserByID(userID)
+
+  if err != nil {
+    utils.WriteError(w, http.StatusInternalServerError, fmt.Errorf("something went wrong"))
+  }
+
+  utils.WriteJSON(w, http.StatusOK, user)
+  
 }
 
 func(h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
