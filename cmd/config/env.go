@@ -8,6 +8,7 @@ import (
 )
 
 type Config struct {
+  DbHost string
   DbUser string
   DbName string
   DbPassword string
@@ -22,6 +23,7 @@ var Envs = initConfig()
 func initConfig() Config {
   godotenv.Load()
   return Config{
+    DbHost: getEnv("POSTGRESS_HOST", "localhost"),
     DbUser: getEnv("POSTGRES_USER", "postgres"),
     DbName: getEnv("PPOSTGRES_DB", "postgres"),
     DbPassword: getEnv("POSTGRES_PASSWORD", "postgres"),

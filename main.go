@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-  db, err := db.NewPGStorage(config.Envs.DbUser, config.Envs.DbName, config.Envs.DbPassword, config.Envs.Sslmode, config.Envs.DbPort)
+  db, err := db.NewPGStorage(config.Envs.DbHost, config.Envs.DbUser, config.Envs.DbName, config.Envs.DbPassword, config.Envs.Sslmode, config.Envs.DbPort)
 
   if err != nil {
     log.Fatal(err)
